@@ -55,7 +55,8 @@ public class MasterMember extends Agent {
         ArrayList<AID> temporary_members = new ArrayList<AID>();
         ArrayList<AID> permanent_members = new ArrayList<AID>();
         ArrayList<AID> regular_members = new ArrayList<AID>();
-        ArrayList<Nice> message_records = new ArrayList<Nice>();
+        HashMap<AID, ArrayList<Type>> message_records = new HashMap<AID, ArrayList<Type>>();
+        HashMap<AID, Boolean> vote_status = new HashMap<AID, Boolean>();
         AMSSubscriber myAMSSubscriber = new AMSSubscriber() {
             protected void installHandlers(Map handlers) {
             EventHandler creationsHandler = new EventHandler() {
@@ -64,6 +65,8 @@ public class MasterMember extends Agent {
             if (ba.getWhere().getName().equals("Permanent Members"))
             {
                 permanent_members.add(ba.getAgent());
+                vote_status.put(ba.getAgent(),false);
+                message_records.put(ba.getAgent(),new ArrayList<Type>());
             } else if (ba.getWhere().getName().equals("Temporary Members"))
             {
                 temporary_members.add(ba.getAgent());
@@ -80,8 +83,26 @@ public class MasterMember extends Agent {
         Behaviour startVoting = new TickerBehaviour(this,5000) {
             protected void onTick() 
             {
-               for (AID i : permanent_members)
-               {
+              boolean count_flag = true;
+              for (Map.Entry<AID,Boolean> datum : vote_status.entrySet())
+              {
+                    if (!datum.getValue())
+                    {
+                        count_flag = false;
+                    }
+              }
+              if (count_flag)
+              {
+                for (Map.Entry<AID,ArrayList<Type>> entry : message_records.entrySet())
+                {
+                    for (Type i : entry.getValue())
+                    {
+                        System.out.println(i.name.toString() + " - " + i.type + " - " + i.vote);
+                    }
+                }
+              }
+              for (AID i : permanent_members)
+                 {
                    try {
                     ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
                     ArrayList<Type> obj = new ArrayList<Type>();
@@ -116,16 +137,14 @@ public class MasterMember extends Agent {
                     System.out.println("Sent by: " + msg.getSender());
                     try {
                     ArrayList<Type> data = (ArrayList<Type>) msg.getContentObject();
-                    Nice nic = new Nice(msg.getSender(),data);
-                    message_records.add(nic);
-                    for (Nice n : message_records)
+                    /*Nice nic = new Nice(msg.getSender(),data);*/
+                    message_records.replace(msg.getSender(),data);
+                    vote_status.replace(msg.getSender(),true);
+                    for (Type ty : message_records.get(msg.getSender()))
                     {
-                        for (Type ty : n.record)
-                        {
-                            System.out.println(ty.name.toString() + " - " + ty.type + " - " + ty.vote);
-                        }
+                        System.out.println(ty.name.toString() + " - " + ty.type + " - " + ty.vote);
                     }
-                    /*(for (Type i : data)
+                    /*for (Type i : data)
                     {
                         System.out.println(i.name.toString() + " - " + i.type + " - " + i.vote);
                     }*/
