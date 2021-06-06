@@ -75,11 +75,9 @@ public class Main {
 				Main.i++;
 			}
 			else if (x == 0) {
-				//sc.close();
 				System.out.println("Quit");
 				System.exit(0);
 			}
-			  //System.out.println(data);
 			}
 			myReader.close();
 		  } catch (Exception e) {

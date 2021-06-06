@@ -55,6 +55,7 @@ public class MasterMember extends Agent {
         ArrayList<AID> temporary_members = new ArrayList<AID>();
         ArrayList<AID> permanent_members = new ArrayList<AID>();
         ArrayList<AID> regular_members = new ArrayList<AID>();
+        ArrayList<Nice> message_records = new ArrayList<Nice>();
         AMSSubscriber myAMSSubscriber = new AMSSubscriber() {
             protected void installHandlers(Map handlers) {
             EventHandler creationsHandler = new EventHandler() {
@@ -115,10 +116,19 @@ public class MasterMember extends Agent {
                     System.out.println("Sent by: " + msg.getSender());
                     try {
                     ArrayList<Type> data = (ArrayList<Type>) msg.getContentObject();
-                    for (Type i : data)
+                    Nice nic = new Nice(msg.getSender(),data);
+                    message_records.add(nic);
+                    for (Nice n : message_records)
+                    {
+                        for (Type ty : n.record)
+                        {
+                            System.out.println(ty.name.toString() + " - " + ty.type + " - " + ty.vote);
+                        }
+                    }
+                    /*(for (Type i : data)
                     {
                         System.out.println(i.name.toString() + " - " + i.type + " - " + i.vote);
-                    }
+                    }*/
                     } catch (Exception e)
                     {
                         e.printStackTrace();
