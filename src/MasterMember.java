@@ -140,11 +140,11 @@ public class MasterMember extends Agent {
                     /*Nice nic = new Nice(msg.getSender(),data);*/
                     message_records.replace(msg.getSender(),data);
                     vote_status.replace(msg.getSender(),true);
-                    for (Type ty : message_records.get(msg.getSender()))
+                    /*for (Type ty : message_records.get(msg.getSender()))
                     {
                         System.out.println(ty.name.toString() + " - " + ty.type + " - " + ty.vote);
                     }
-                    /*for (Type i : data)
+                    for (Type i : data)
                     {
                         System.out.println(i.name.toString() + " - " + i.type + " - " + i.vote);
                     }*/
