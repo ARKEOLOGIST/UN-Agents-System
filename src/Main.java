@@ -46,7 +46,7 @@ public class Main {
 			  x = Integer.parseInt(data);
 			  if (x==1) {
 				try {
-					System.out.println("Permanent Member");
+					//System.out.println("Permanent Member");
 					ac1 = c1.createNewAgent("Member " + i, "PermanentMember", null);
 					ac1.start();
 				} catch (Exception e) {
@@ -56,7 +56,7 @@ public class Main {
 			}
 			else if (x==2) {
 				try {
-					System.out.println("Regular Member");
+					//System.out.println("Regular Member");
 					ac2 = c2.createNewAgent("Member " + i, "RegularMember", null);
 					ac2.start();
 				} catch (Exception e) {
@@ -66,7 +66,7 @@ public class Main {
 			}
 			else if (x==3) {
 				try {
-					System.out.println("Temporary Member");
+					//System.out.println("Temporary Member");
 					ac3 = c3.createNewAgent("Member " + i, "TemporaryMember", null);
 					ac3.start();
 				} catch (Exception e) {
@@ -75,7 +75,7 @@ public class Main {
 				Main.i++;
 			}
 			else if (x == 0) {
-				System.out.println("Quit");
+				//System.out.println("Quit");
 				System.exit(0);
 			}
 			}

@@ -71,15 +71,15 @@ public class PermanentMember extends Agent {
                         ArrayList<Type> votes = new ArrayList<Type>();
                         for (Type i : data)
                     {
-                        System.out.println(i.name.toString() + " - " + i.type);
+                        //System.out.println(i.name.toString() + " - " + i.type);
                         double chance = Math.random();
                         if (chance <= 0.5)
                         {
-                            votes.add(new Type(i,true));
+                            votes.add(new Type(i,0));
                         }
                         else
                         {
-                            votes.add(new Type(i,false));
+                            votes.add(new Type(i,1));
                         } 
                     }
                     ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
