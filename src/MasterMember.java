@@ -27,6 +27,7 @@ import jade.content.lang.leap.LEAPCodec;
 import jade.content.lang.sl.*;
 
 import java.util.*;
+import java.io.*;
 
 public class MasterMember extends Agent {
 
@@ -123,9 +124,22 @@ public class MasterMember extends Agent {
                         
                     }
                 }
+                for (Map.Entry<AID,Boolean> entry : vote_status.entrySet())
+                {
+                    vote_status.replace(entry.getKey(),false);
+                }
+                try {
+                FileWriter output = new FileWriter("output.txt");
                 for (Map.Entry<AID,Type> op : hp.entrySet())
                 {
-                    System.out.println(op.getKey().toString() + " - " + op.getValue().type + " - "+ op.getValue().vote);
+                    int voted = op.getValue().vote;
+                    System.out.println(op.getKey().getLocalName() + " - " + op.getValue().type + " - "+ op.getValue().vote);
+                    output.write(op.getKey().getLocalName() + " - " + op.getValue().type + " - "+ Integer.toString(voted) + "\n");
+                }
+                output.close();
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
                 }
               }
               else
@@ -133,10 +147,6 @@ public class MasterMember extends Agent {
                 for (Map.Entry<AID,Boolean> entry : vote_status.entrySet())
                 {
                     vote_status.replace(entry.getKey(),false);
-                }
-                for (Map.Entry<AID,Type> op : hp.entrySet())
-                {
-                    System.out.println(op.getKey().toString() + " - " + op.getValue().type + " - "+ op.getValue().vote);
                 }
               }
                 System.out.println("\n");

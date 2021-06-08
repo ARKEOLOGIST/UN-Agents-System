@@ -1,0 +1,2 @@
+Member 4 - Temporary Member - 1
+Member 2 - Regular Member - 0
