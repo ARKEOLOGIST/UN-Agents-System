@@ -129,13 +129,14 @@ public class MasterMember extends Agent {
                     vote_status.replace(entry.getKey(),false);
                 }
                 try {
-                FileWriter output = new FileWriter("output.txt");
+                FileWriter output = new FileWriter("output.txt",true);
                 for (Map.Entry<AID,Type> op : hp.entrySet())
                 {
                     int voted = op.getValue().vote;
                     System.out.println(op.getKey().getLocalName() + " - " + op.getValue().type + " - "+ op.getValue().vote);
                     output.write(op.getKey().getLocalName() + " - " + op.getValue().type + " - "+ Integer.toString(voted) + "\n");
                 }
+                output.write("\n");
                 output.close();
                 } catch (Exception e)
                 {
