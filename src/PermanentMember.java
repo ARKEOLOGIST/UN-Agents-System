@@ -68,22 +68,15 @@ public class PermanentMember extends Agent {
                 {
                     try {
                         ArrayList<Type> data = (ArrayList<Type>) ip.getContentObject();
-                        ArrayList<Type> votes = new ArrayList<Type>();
                         for (Type i : data)
                     {
                         //System.out.println(i.name.toString() + " - " + i.type);
-                        double chance = Math.random();
-                        if (chance <= 0.5)
-                        {
-                            votes.add(new Type(i,0));
-                        }
-                        else
-                        {
-                            votes.add(new Type(i,1));
-                        } 
+                        int chance = (int) ((Math.random() * 10) + 1);
+                        //System.out.println(i.name.getLocalName() + " - " + i.type + " - " + chance);
+                        i.vote = chance;
                     }
                     ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-                    msg.setContentObject(votes);
+                    msg.setContentObject(data);
                     msg.addReceiver(ip.getSender());
                     msg.setSender(getAID());
                     msg.setConversationId("A");

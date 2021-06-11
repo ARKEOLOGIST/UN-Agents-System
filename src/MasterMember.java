@@ -28,6 +28,7 @@ import jade.content.lang.sl.*;
 
 import java.util.*;
 import java.io.*;
+import com.opencsv.CSVWriter;
 
 public class MasterMember extends Agent {
 
@@ -48,14 +49,28 @@ public class MasterMember extends Agent {
             DFService.register(this, dfd);  
         }
         catch (Exception fe) { fe.printStackTrace(); }
+        try {
+            FileWriter file_output = new FileWriter("output.csv",true);
+            char ch = ';';
+            CSVWriter writer = new CSVWriter(file_output,ch,
+                            CSVWriter.NO_QUOTE_CHARACTER,
+                            CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                            CSVWriter.DEFAULT_LINE_END);
+            writer.writeNext(new String[] {"Sent By","Agent Name","Agent Type","Votes"}); 
+            writer.close();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         getContentManager().registerLanguage(codec);
         getContentManager().registerOntology(ontology);
         getContentManager().registerOntology(JADEManagementOntology.getInstance());
         getContentManager().registerOntology(MobilityOntology.getInstance());
-        getContentManager().registerOntology(IntrospectionOntology.getInstance());    
+        getContentManager().registerOntology(IntrospectionOntology.getInstance());   
         ArrayList<AID> temporary_members = new ArrayList<AID>();
         ArrayList<AID> permanent_members = new ArrayList<AID>();
         ArrayList<AID> regular_members = new ArrayList<AID>();
+        ArrayList<Type> obj = new ArrayList<Type>();
         HashMap<AID, ArrayList<Type>> message_records = new HashMap<AID, ArrayList<Type>>();
         HashMap<AID, Boolean> vote_status = new HashMap<AID, Boolean>();
         AMSSubscriber myAMSSubscriber = new AMSSubscriber() {
@@ -71,9 +86,11 @@ public class MasterMember extends Agent {
             } else if (ba.getWhere().getName().equals("Temporary Members"))
             {
                 temporary_members.add(ba.getAgent());
+                obj.add(new Type(ba.getAgent(),"Temporary Member"));
             } else if (ba.getWhere().getName().equals("Regular Members"))
             {
                 regular_members.add(ba.getAgent());
+                obj.add(new Type(ba.getAgent(),"Regular Member"));
             }
             }
             };
@@ -84,16 +101,15 @@ public class MasterMember extends Agent {
         Behaviour startVoting = new TickerBehaviour(this,5000) {
             protected void onTick() 
             {
-              ArrayList<Type> obj = new ArrayList<Type>();
               HashMap<AID, Type> hp = new HashMap<AID, Type>(); 
                 for (AID k : temporary_members)
                 {
-                    obj.add(new Type(k,"Temporary Member"));
+                    
                     hp.put(k,new Type(k,"Temporary Member"));
                 }
                 for (AID k : regular_members)
                 {
-                    obj.add(new Type(k,"Regular Member"));
+                    
                     hp.put(k,new Type(k,"Regular Member"));
                 }
               boolean count_flag = true;
@@ -112,16 +128,12 @@ public class MasterMember extends Agent {
                     Type t;
                     for (Type i : entry.getValue())
                     {
-                        if (i.vote == 1)
-                        {
                             if (hp.containsKey(i.name))
                             {
                                 t = hp.get(i.name);
                                 count = t.vote;
-                                hp.replace(i.name,new Type(t,count+1));
+                                hp.replace(i.name,new Type(t,count+i.vote));
                             }
-                        }
-                        
                     }
                 }
                 for (Map.Entry<AID,Boolean> entry : vote_status.entrySet())
@@ -133,7 +145,7 @@ public class MasterMember extends Agent {
                 for (Map.Entry<AID,Type> op : hp.entrySet())
                 {
                     int voted = op.getValue().vote;
-                    System.out.println(op.getKey().getLocalName() + " - " + op.getValue().type + " - "+ op.getValue().vote);
+                    //System.out.println(op.getKey().getLocalName() + " - " + op.getValue().type + " - "+ op.getValue().vote);
                     output.write(op.getKey().getLocalName() + " - " + op.getValue().type + " - "+ Integer.toString(voted) + "\n");
                 }
                 output.write("\n");
@@ -182,6 +194,18 @@ public class MasterMember extends Agent {
                     /*Nice nic = new Nice(msg.getSender(),data);*/
                     message_records.replace(msg.getSender(),data);
                     vote_status.replace(msg.getSender(),true);
+                    FileWriter file_output = new FileWriter("output.csv",true);
+                    char ch = ';';
+                    CSVWriter writer = new CSVWriter(file_output,ch,
+                                    CSVWriter.NO_QUOTE_CHARACTER,
+                                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                                    CSVWriter.DEFAULT_LINE_END);
+                    for (Type i : data)
+                    {
+                        writer.writeNext(new String[] { msg.getSender().getLocalName(),i.name.getLocalName(), i.type, Integer.toString(i.vote)});
+                    }
+                    writer.close();
+
                     /*for (Type ty : message_records.get(msg.getSender()))
                     {
                         System.out.println(ty.name.toString() + " - " + ty.type + " - " + ty.vote);
