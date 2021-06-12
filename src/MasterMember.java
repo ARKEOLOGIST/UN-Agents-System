@@ -50,7 +50,7 @@ public class MasterMember extends Agent {
         }
         catch (Exception fe) { fe.printStackTrace(); }
         try {
-            FileWriter file_output = new FileWriter("output.csv",true);
+            FileWriter file_output = new FileWriter("output.csv");
             char ch = ';';
             CSVWriter writer = new CSVWriter(file_output,ch,
                             CSVWriter.NO_QUOTE_CHARACTER,

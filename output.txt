@@ -1,24 +1,33 @@
-Member 4 - Temporary Member - 14
+Member 4 - Temporary Member - 12
 Member 2 - Regular Member - 14
 
-Member 4 - Temporary Member - 12
-Member 2 - Regular Member - 7
-
-Member 4 - Temporary Member - 10
-Member 2 - Regular Member - 11
+Member 4 - Temporary Member - 17
+Member 2 - Regular Member - 13
 
 Member 4 - Temporary Member - 9
 Member 2 - Regular Member - 13
 
-Member 4 - Temporary Member - 12
-Member 2 - Regular Member - 5
+Member 4 - Temporary Member - 14
+Member 2 - Regular Member - 4
 
-Member 4 - Temporary Member - 9
-Member 2 - Regular Member - 6
+Member 4 - Temporary Member - 16
+Member 2 - Regular Member - 12
 
-Member 4 - Temporary Member - 11
-Member 2 - Regular Member - 16
+Member 4 - Temporary Member - 6
+Member 2 - Regular Member - 12
 
 Member 4 - Temporary Member - 15
-Member 2 - Regular Member - 11
+Member 2 - Regular Member - 10
+
+Member 4 - Temporary Member - 5
+Member 2 - Regular Member - 6
+
+Member 4 - Temporary Member - 13
+Member 2 - Regular Member - 5
+
+Member 4 - Temporary Member - 3
+Member 2 - Regular Member - 3
+
+Member 4 - Temporary Member - 11
+Member 2 - Regular Member - 4
 
