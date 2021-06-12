@@ -56,7 +56,7 @@ public class MasterMember extends Agent {
                             CSVWriter.NO_QUOTE_CHARACTER,
                             CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                             CSVWriter.DEFAULT_LINE_END);
-            writer.writeNext(new String[] {"Sent By","Agent Name","Agent Type","Votes"}); 
+            writer.writeNext(new String[] {"Sent By","Agent Name","Votes","Agent Type"}); 
             writer.close();
         } catch (Exception e)
         {
@@ -202,7 +202,7 @@ public class MasterMember extends Agent {
                                     CSVWriter.DEFAULT_LINE_END);
                     for (Type i : data)
                     {
-                        writer.writeNext(new String[] { msg.getSender().getLocalName(),i.name.getLocalName(), i.type, Integer.toString(i.vote)});
+                        writer.writeNext(new String[] { msg.getSender().getLocalName(),i.name.getLocalName(), Integer.toString(i.vote), i.type});
                     }
                     writer.close();
 

@@ -81,7 +81,7 @@ public class Main {
 			}
 			myReader.close();
 		  } catch (Exception e) {
-			System.out.println("An error occurred.");
+			//System.out.println("An error occurred.");
 			e.printStackTrace();
 		  }
 		/*while(x>0) {
