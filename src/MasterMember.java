@@ -13,6 +13,7 @@ import jade.domain.FIPAAgentManagement.*;
 import jade.domain.JADEAgentManagement.*;
 import jade.domain.introspection.AMSSubscriber;
 import jade.domain.introspection.BornAgent;
+import jade.domain.introspection.MovedAgent;
 import jade.domain.mobility.*;
 import jade.domain.introspection.*;
 
@@ -96,8 +97,24 @@ public class MasterMember extends Agent {
             };
             handlers.put(IntrospectionVocabulary.BORNAGENT,
             creationsHandler);
+            EventHandler movedHandler = new EventHandler() {
+            public void handle(Event ev) {
+            MovedAgent mv = (MovedAgent) ev;
+            if (mv.getFrom().getName().equals("Regular Members") && mv.getTo().getName().equals("Temporary Members"))
+            {
+                regular_members.remove(mv.getAgent());
+                temporary_members.add(mv.getAgent());
+            } else if (mv.getFrom().getName().equals("Temporary Members") && mv.getTo().getName().equals("Regular Members"))
+            {
+                temporary_members.remove(mv.getAgent());
+                regular_members.add(mv.getAgent());             
+            } 
             }
-        };
+            };
+            handlers.put(IntrospectionVocabulary.MOVEDAGENT,
+            movedHandler);
+        }
+    };
         Behaviour startVoting = new TickerBehaviour(this,5000) {
             protected void onTick() 
             {

@@ -46,5 +46,26 @@ public class TemporaryMember extends Agent {
         catch (Exception fe) { fe.printStackTrace(); }
         getContentManager().registerLanguage(codec);
         getContentManager().registerOntology(ontology);
+        Behaviour transferToContainer = new CyclicBehaviour(this) {
+            public void action() 
+            {
+                MessageTemplate mt = MessageTemplate.MatchConversationId("D");
+                ACLMessage ip = receive(mt);
+                if (ip != null)
+                {
+                    String s = ip.getContent();
+                    ContainerID n = new ContainerID();
+                    n.setName(s);
+                    Location id = (Location) n;
+                    doMove(id);
+                }
+                else
+                {
+                    block();
+                }
+               
+            }
+        };
+        addBehaviour(transferToContainer);
     }
 }
